@@ -1,0 +1,1 @@
+cmd_/root/CLionProjects/czxt/mymodule.ko := ld -r -m elf_x86_64 -z noexecstack --build-id=sha1  -T scripts/module.lds -o /root/CLionProjects/czxt/mymodule.ko /root/CLionProjects/czxt/mymodule.o /root/CLionProjects/czxt/mymodule.mod.o;  true
