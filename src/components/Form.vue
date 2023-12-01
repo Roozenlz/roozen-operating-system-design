@@ -1,25 +1,33 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import Button6 from "./Button6.vue";
 const currentUserName = ref('')
-
+defineProps({
+  passwd: String,
+  show: Boolean
+})
+defineEmits(['submit','update:passwd'])
 currentUserName.value = window.ipcRenderer.sendSync('cli','whoami').stdout
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" v-if="show">
     <div class="left">
-      <form class="form">
-        <div class="input-block">
+      <div class="form">
+        <div class="input-block title">
           <el-text type="primary">Linux加载内核模块需要sudo权限</el-text>
         </div>
         <div class="input-block">
-          <input class="input" type="password" id="pass" required="">
+          <input class="input" type="password" id="pass" required
+                 :value="passwd"
+                 @input="$emit('update:passwd', ($event.target as HTMLInputElement).value)"
+                 @keyup.enter="$emit('submit')">
           <label for="pass">请输入当前用户{{currentUserName}}的登录密码</label>
         </div>
         <div class="input-block">
-          <button>提交</button>
+          <button6 @click="$emit('submit')" text="提交"></button6>
         </div>
-      </form>
+      </div>
     </div>
     <div class="right">
       <div class="img"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 731.67004 550.61784" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -70,6 +78,10 @@ currentUserName.value = window.ipcRenderer.sendSync('cli','whoami').stdout
 </template>
 
 <style scoped>
+.title{
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+}
 .container {
   display: flex;
   width: 520px;
@@ -145,8 +157,7 @@ currentUserName.value = window.ipcRenderer.sendSync('cli','whoami').stdout
   z-index: -1;
 }
 
-.input,
-button {
+.input {
   background: rgba(253, 253, 253, 0);
   outline: none;
   border: 1px solid rgba(255, 0, 0, 0);
@@ -182,16 +193,10 @@ label {
 
 .input:focus + label,
 .input:valid + label {
-  transform: translateY(-120%) scale(0.9);
+  transform: translateY(-130%) scale(0.9);
   transition: all 0.4s;
 }
 
-button {
-  background-color: #5e7eb6;
-  color: white;
-  font-size: medium;
-  box-shadow: 2px 4px 8px rgba(70, 70, 70, 0.178);
-}
 
 a {
   color: #5e7eb6;

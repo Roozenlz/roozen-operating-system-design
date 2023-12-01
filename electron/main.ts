@@ -8,10 +8,6 @@ Menu.setApplicationMenu(null);
 ipcMain.on('cli', (event, cmd) => {
     exec(cmd, (err, stdout, stderr) => {
         try{
-            if(err){
-                console.log(err)
-                console.log(stderr)
-            }
             event.returnValue = {
                 cmd: cmd,
                 stdout: stdout
@@ -48,7 +44,7 @@ function createWindow() {
         },
     })
     // 在主进程中打开开发者工具
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
     // Test active push message to Renderer-process.
     win.webContents.on('did-finish-load', () => {
         win?.webContents.send('main-process-message', (new Date).toLocaleString())
