@@ -100,3 +100,16 @@ button:focus-visible {
   background-color: rgb(128, 128, 128,0.5);
   border-radius: 2em;
 }
+
+/* 鼠标样式 */
+html {
+  cursor: url("/public/default.cur"), default !important;
+}
+
+body {
+  cursor: url("/public/default.cur"), default !important;
+}
+
+button{
+  cursor: url("/public/pointer.cur"), pointer !important;
+}

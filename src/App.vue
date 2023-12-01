@@ -53,7 +53,12 @@ const clearMsg = () => {
 }
 
 const catMsg = () => {
-  msg.value= window.ipcRenderer.sendSync('cli', 'echo ' + password.value + '|sudo -S dmesg|grep mymodule').stdout;
+  showLoading.value = true
+  setTimeout(()=>{
+    msg.value= window.ipcRenderer.sendSync('cli', 'echo ' + password.value + '|sudo -S dmesg|grep mymodule').stdout;
+    showLoading.value = false
+    ElMessage.success("内核环形缓冲区信息加载完毕！")
+  },500)
 }
 
 const testModule = () => {
@@ -61,6 +66,7 @@ const testModule = () => {
   setTimeout(()=>{
     window.ipcRenderer.sendSync('cli', 'echo ' + password.value + '|sudo -S ./test_module 测试')
     showLoading.value = false
+    ElMessage.success("测试完毕，向内核模块发送信息：‘测试’")
   },500)
 }
 const dialogConfirmHandler = () => {
