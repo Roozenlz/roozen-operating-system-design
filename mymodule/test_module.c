@@ -1,21 +1,18 @@
-/*  userspace_ioctl.c - the process to use ioctl's to control the kernel module
- *
- *  Until now we could have used cat for input and output.  But now
- *  we need to do ioctl's, which require writing our own process.
+/* 使用ioctl来控制内核模块的进程到目前为止，
+ * 我们可以使用cat作为输入和输出。
+ * 但是现在我们需要执行ioctl，这需要编写我们自己的进程。
+ * 设备细节，如ioctl号和主要设备文件。
  */
-
-/* device specifics, such as ioctl numbers and the
- * major device file. */
 #include "chardev.h"
 
-#include <stdio.h> /* standard I/O */
-#include <fcntl.h> /* open */
-#include <unistd.h> /* close */
-#include <stdlib.h> /* exit */
-#include <sys/ioctl.h> /* ioctl */
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <sys/ioctl.h>
 
-/* Functions for the ioctl calls */
-
+/*ioctl调用函数 */
+/*函数用于将一条消息设置为设备的消息。它使用ioctl函数将消息发送到设备，并将返回值存储在ret_val变量中*/
 int ioctl_set_msg(int file_desc, char *message)
 {
     int ret_val;
@@ -23,34 +20,26 @@ int ioctl_set_msg(int file_desc, char *message)
     ret_val = ioctl(file_desc, IOCTL_SET_MSG, message);
 
     if (ret_val < 0) {
-        printf("ioctl_set_msg failed:%d\n", ret_val);
+        printf("ioctl_set_msg失败:%d\n", ret_val);
     }
 
     return ret_val;
 }
-
+/*函数用于从设备中读取消息。它使用ioctl函数从设备中读取消息，并将读取到的消息打印出来*/
 int ioctl_get_msg(int file_desc)
 {
     int ret_val;
     char message[100] = { 0 };
-
-    /* Warning - this is dangerous because we don't tell
-   * the kernel how far it's allowed to write, so it
-   * might overflow the buffer. In a real production
-   * program, we would have used two ioctls - one to tell
-   * the kernel the buffer length and another to give
-   * it the buffer to fill
-   */
-    ret_val = ioctl(file_desc, IOCTL_GET_MSG, message);
+    ret_val = ioctl(file_desc, IOCTL_GET_MSG, message);/*参数：文件描述符、IOCTL命令和缓冲区*/
 
     if (ret_val < 0) {
-        printf("ioctl_get_msg failed:%d\n", ret_val);
+        printf("ioctl_get_msg失败:%d\n", ret_val);
     }
     printf("get_msg message:%s", message);
     putchar('\n');
     return ret_val;
 }
-
+/*函数用于从设备中读取指定位置的字节。它使用一个循环来读取指定位置的字节，并将读取到的字节打印出来*/
 int ioctl_get_nth_byte(int file_desc)
 {
     int i, c;
@@ -72,25 +61,27 @@ int ioctl_get_nth_byte(int file_desc)
     return 0;
 }
 
-/* Main - Call the ioctl functions */
+/* main调用ioctl函数*/
 int main(int argc,char *argv[])
 {
     int file_desc, ret_val;
     char *msg = argv[1];
 
-    file_desc = open(DEVICE_PATH, O_RDWR);
+    file_desc = open(DEVICE_PATH, O_RDWR);/*打开设备文件*/
     if (file_desc < 0) {
         printf("Can't open device file: %s, error:%d\n", DEVICE_PATH,
                file_desc);
         exit(EXIT_FAILURE);
     }
-
+    /*将一条消息设置为设备的消息*/
     ret_val = ioctl_set_msg(file_desc, msg);
     if (ret_val)
-        goto error;
+        goto error;/*如果ioctl命令执行失败，程序将跳转到error标签处，打印错误信息并退出程序*/
+    /*从设备中读取指定位置的字节*/
     ret_val = ioctl_get_nth_byte(file_desc);
     if (ret_val)
         goto error;
+    /*从设备中读取消息*/
     ret_val = ioctl_get_msg(file_desc);
     if (ret_val)
         goto error;

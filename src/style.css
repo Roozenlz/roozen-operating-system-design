@@ -87,7 +87,7 @@ button:focus-visible {
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
   height: 6px;
 }
 *::-webkit-scrollbar-thumb:hover {

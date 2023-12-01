@@ -1,1 +1,1 @@
-在 /root/CLionProjects/czxt 中找不到 CMakeLists.txt 选择 CMakeLists.txt
+在 /home/roozen/roozen-operating-system-design/mymodule 中找不到 CMakeLists.txt 选择 CMakeLists.txt

@@ -1,1 +1,1 @@
-cmd_/root/CLionProjects/czxt/mymodule.mod := printf '%s\n'   mymodule.o | awk '!x[$$0]++ { print("/root/CLionProjects/czxt/"$$0) }' > /root/CLionProjects/czxt/mymodule.mod
+cmd_/home/roozen/roozen-operating-system-design/mymodule/mymodule.mod := printf '%s\n'   mymodule.o | awk '!x[$$0]++ { print("/home/roozen/roozen-operating-system-design/mymodule/"$$0) }' > /home/roozen/roozen-operating-system-design/mymodule/mymodule.mod

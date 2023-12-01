@@ -1,1 +1,1 @@
-/root/CLionProjects/czxt/mymodule.o
+/home/roozen/roozen-operating-system-design/mymodule/mymodule.o

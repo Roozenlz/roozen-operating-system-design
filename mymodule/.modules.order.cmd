@@ -1,1 +1,1 @@
-cmd_/root/CLionProjects/czxt/modules.order := {   echo /root/CLionProjects/czxt/mymodule.o; :; } > /root/CLionProjects/czxt/modules.order
+cmd_/home/roozen/roozen-operating-system-design/mymodule/modules.order := {   echo /home/roozen/roozen-operating-system-design/mymodule/mymodule.o; :; } > /home/roozen/roozen-operating-system-design/mymodule/modules.order
